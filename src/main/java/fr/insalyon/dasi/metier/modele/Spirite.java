@@ -33,4 +33,7 @@ public class Spirite extends Medium {
         this.support = support;
     }
 
+    public String toString() {
+        return "Spirite[support:"+support+"]"+super.toString();
+    }
 }
