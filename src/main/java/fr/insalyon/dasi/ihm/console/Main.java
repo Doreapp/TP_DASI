@@ -76,12 +76,6 @@ public class Main {
     }
     
     public static void inscriptionClient(){
-        //======================================
-        // Tester l'inscription des Clients :
-        
-        System.out.println();
-        System.out.println("**** testerInscriptionClient() ****");
-        System.out.println();
         
         Service service = new Service();
         
@@ -92,7 +86,7 @@ public class Main {
         } else {
             System.out.println("> Échec inscription");
         }
-        afficherUtilisateur(c);
+        //afficherUtilisateur(c);
         
         Client c2 = new Client("email","Hugo","Victor","00","mdp",new Date("12/15/2020"),"adresse");
         Long id2 = service.inscrireClient(c2);
@@ -101,13 +95,40 @@ public class Main {
         } else {
             System.out.println("> Échec inscription");
         }
-        afficherUtilisateur(c2);
+        //afficherUtilisateur(c2);
         
-        System.out.println();
-        System.out.println("**** Fin testerInscriptionClient() ****");
-        System.out.println();
+        Client c3 = new Client("rborrotimatiasdantas4171@free.fr","BORROTI MATIAS DANTAS","Raphaël","0328178508","mdp",new Date("10/07/1976"),"8 Rue Arago, Villeurbanne");
+        Long id3 = service.inscrireClient(c3);
+        if (id3 != null) {
+            System.out.println("> Succès inscription");
+        } else {
+            System.out.println("> Échec inscription");
+        }
         
-        //===========================
+        Client c4 = new Client("nolmeadamarais1551@free.fr","OLMEADA ","Nor","0418932546","mdp",new Date("09/12/1983"),"5 Rue Léon Fabre, Villeurbanne");
+        Long id4 = service.inscrireClient(c4);
+        if (id4 != null) {
+            System.out.println("> Succès inscription");
+        } else {
+            System.out.println("> Échec inscription");
+        }
+        
+        Client c5 = new Client("orayesgemez5313@free.fr","RAYES ","Olena","0532731620","mdp",new Date("09/12/1983"),"12 Rue de la Prevoyance, Villeurbanne");
+        Long id5 = service.inscrireClient(c5);
+        if (id5 != null) {
+            System.out.println("> Succès inscription");
+        } else {
+            System.out.println("> Échec inscription");
+        }
+        
+        Client c6 = new Client("asing8183@free.fr","SING","Ainhoa","0705224200","mdp",new Date("09/12/1983"),"4 Rue Phelypeaux, Villeurbanne");
+        Long id6 = service.inscrireClient(c6);
+        if (id6 != null) {
+            System.out.println("> Succès inscription");
+        } else {
+            System.out.println("> Échec inscription");
+        }
+ 
     }
     
     public static void testerAuthentification(){
