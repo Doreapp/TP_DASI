@@ -46,5 +46,10 @@ public class Employe extends Utilisateur {
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
+    
+    @Override
+    public String toString() {
+        return "id=" + getId() + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", motDePasse=" + motDePasse+", genre="+genre;
+    }
  
 }
