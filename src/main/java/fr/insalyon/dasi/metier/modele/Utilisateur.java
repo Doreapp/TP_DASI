@@ -21,16 +21,26 @@ public class Utilisateur implements Serializable {
     protected String email;
     protected String nom;
     protected String prenom;
+    protected String numeroDeTelephone;
     protected String motDePasse;
 
     protected Utilisateur() {
     }
 
-    public Utilisateur(String email, String nom, String prenom, String motDePasse) {
+    public Utilisateur(String email, String nom, String prenom, String tel, String motDePasse) {
         this.email = email;
         this.nom = nom;
         this.prenom = prenom;
+        this.numeroDeTelephone = tel;
         this.motDePasse = motDePasse;
+    }
+
+    public String getNumeroDeTelephone() {
+        return numeroDeTelephone;
+    }
+
+    public void setNumeroDeTelephone(String numeroDeTelephone) {
+        this.numeroDeTelephone = numeroDeTelephone;
     }
 
     public Long getId() {

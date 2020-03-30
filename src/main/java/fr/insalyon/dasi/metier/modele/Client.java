@@ -10,7 +10,6 @@ public class Client extends Utilisateur {
 
     @Temporal(TemporalType.DATE)
     private Date dateDeNaissance;
-    private String numeroDeTelephone;
     private String signeZodiaque;
     private String couleurBonheur;
     private String animalTotem;
@@ -19,10 +18,9 @@ public class Client extends Utilisateur {
     protected Client() {
     }
 
-    public Client(String email, String nom, String prenom, String motDePasse, Date date, String numeroDeTelephone, String adresse) {
-        super(email, nom, prenom, motDePasse);
+    public Client(String email, String nom, String prenom, String numeroDeTelephone, String motDePasse, Date date, String adresse) {
+        super(email, nom, prenom, numeroDeTelephone, motDePasse);
         this.dateDeNaissance = date;
-        this.numeroDeTelephone = numeroDeTelephone;
         this.adressePostale = adresse;
     }
 
@@ -32,14 +30,6 @@ public class Client extends Utilisateur {
 
     public void setDate(Date date) {
         this.dateDeNaissance = date;
-    }
-
-    public String getNumeroDeTelephone() {
-        return numeroDeTelephone;
-    }
-
-    public void setNumeroDeTelephione(String numeroDeTelephone) {
-        this.numeroDeTelephone = numeroDeTelephone;
     }
 
     public String getSigneZodiaque() {
@@ -75,7 +65,7 @@ public class Client extends Utilisateur {
     }
 
     public String toString() {
-        return "id=" + getId() + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", motDePasse=" + motDePasse+", adresse="+adressePostale+", numTel="+numeroDeTelephone;
+        return "id=" + getId() + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", tel="+numeroDeTelephone +", motDePasse=" + motDePasse+", adresse="+adressePostale;
     }
     
 

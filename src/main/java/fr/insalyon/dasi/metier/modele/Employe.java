@@ -15,8 +15,8 @@ public class Employe extends Utilisateur {
     private char genre;
     private boolean disponible;
 
-    public Employe(String email, String nom, String prenom, String motDePasse, char genre) {
-        super(email, nom, prenom, motDePasse);
+    public Employe(String email, String nom, String prenom, String numeroDeTelephone, String motDePasse, char genre) {
+        super(email, nom, prenom, numeroDeTelephone, motDePasse);
         this.genre = genre;
     }
     
@@ -49,7 +49,7 @@ public class Employe extends Utilisateur {
     
     @Override
     public String toString() {
-        return "id=" + getId() + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", motDePasse=" + motDePasse+", genre="+genre;
+        return "id=" + getId() + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email +", tel="+ numeroDeTelephone+ ", motDePasse=" + motDePasse+", genre="+genre;
     }
  
 }
