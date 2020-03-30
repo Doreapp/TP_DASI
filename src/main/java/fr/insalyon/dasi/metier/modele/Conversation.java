@@ -6,28 +6,75 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Conversation implements Serializable{
+public class Conversation implements Serializable {
+    public enum Etat {
+        EN_ATTENTE, REFUSEE, EN_COURS, TERMINEE
+    }
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    private Etat etat;
+    
     @Temporal(TemporalType.DATE)
     private Date dateConsultation;
-    private String etat;
+
     private String commentaire;
+    
+    @ManyToOne
+    private Medium medium;
+    
+    @ManyToOne
+    private Employe employe;
+    
+    @ManyToOne
+    private Client client;
 
-    public Conversation() {
+    protected Conversation() {
     }
 
-    public Conversation(Date dateConsultation, String etat, String commentaire) {
-        this.dateConsultation = dateConsultation;
+    public Conversation(Etat etat, Date dateConsultation, String commentaire, Medium medium, Employe employe, Client client) {
         this.etat = etat;
+        this.dateConsultation = dateConsultation;
         this.commentaire = commentaire;
+        this.medium = medium;
+        this.employe = employe;
+        this.client = client;
     }
+
+    public Medium getMedium() {
+        return medium;
+    }
+
+    public void setMedium(Medium medium) {
+        this.medium = medium;
+    }
+
+    
+    
+    public Employe getEmploye() {
+        return employe;
+    }
+
+    public void setEmploye(Employe employe) {
+        this.employe = employe;
+    }
+
+    public Client getClinet() {
+        return client;
+    }
+
+    public void setClinet(Client clinet) {
+        this.client = clinet;
+    }
+
+    
 
     public Long getId() {
         return id;
@@ -41,12 +88,18 @@ public class Conversation implements Serializable{
         this.dateConsultation = dateConsultation;
     }
 
-    public String getEtat() {
-        return etat;
+    public void setEtat(Etat etat) {
+        this.etat = etat;
     }
 
-    public void setEtat(String etat) {
-        this.etat = etat;
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    
+
+    public Etat getEtat() {
+        return etat;
     }
 
     public String getCommentaire() {
@@ -56,5 +109,5 @@ public class Conversation implements Serializable{
     public void setCommentaire(String commentaire) {
         this.commentaire = commentaire;
     }
-    
+
 }
