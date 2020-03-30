@@ -12,7 +12,7 @@ public class Client extends Utilisateur {
     /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;*/
-    private String date;
+    private String dateDeNaissance;
     private String numeroDeTelephone;
     private String signeZodiaque;
     private String couleurBonheur;
@@ -22,18 +22,19 @@ public class Client extends Utilisateur {
     protected Client() {
     }
 
-    public Client(String email, String nom, String prenom, String motDePasse, String date, String numeroDeTelephone) {
+    public Client(String email, String nom, String prenom, String motDePasse, String date, String numeroDeTelephone, String adresse) {
         super(email, nom, prenom, motDePasse);
-        this.date = date;
+        this.dateDeNaissance = date;
         this.numeroDeTelephone = numeroDeTelephone;
+        this.adressePostale = adresse;
     }
 
     public String getDate() {
-        return date;
+        return dateDeNaissance;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        this.dateDeNaissance = date;
     }
 
     public String getNumeroDeTelephone() {
@@ -76,7 +77,6 @@ public class Client extends Utilisateur {
         this.adressePostale = adressePostale;
     }
 
-    @Override
     public String toString() {
         return "id=" + getId() + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", motDePasse=" + motDePasse+", adresse="+adressePostale+", numTel="+numeroDeTelephone;
     }
