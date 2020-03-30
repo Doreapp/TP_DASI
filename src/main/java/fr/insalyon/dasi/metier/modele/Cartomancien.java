@@ -21,8 +21,5 @@ public class Cartomancien extends Medium{
     public Cartomancien(String nom, String presentation, Character genre) {
         super(nom, presentation, genre);
     }
- 
-    public String toString() {
-        return "Cartomancien[]"+super.toString();
-    }
+    
 }

@@ -3,6 +3,7 @@ package fr.insalyon.dasi.metier.service;
 import fr.insalyon.dasi.dao.ClientDao;
 import fr.insalyon.dasi.dao.ConversationDao;
 import fr.insalyon.dasi.dao.JpaUtil;
+import fr.insalyon.dasi.dao.MediumDao;
 import fr.insalyon.dasi.dao.UtilisateurDao;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Conversation;
@@ -23,6 +24,7 @@ public class Service {
     protected ClientDao clientDao = new ClientDao();
     protected ConversationDao conversationDao = new ConversationDao();
     protected UtilisateurDao utilisateurDao = new UtilisateurDao();
+    protected MediumDao mediumDao = new MediumDao();
 
     /**
      * Log une erreur 
@@ -215,4 +217,20 @@ public class Service {
         }
         return resultat;
     }
+    
+    public List<Medium> getMediums() {
+        List<Medium> resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = mediumDao.listerMediums();
+        } catch (Exception ex) {
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
 }
+    
+    
+

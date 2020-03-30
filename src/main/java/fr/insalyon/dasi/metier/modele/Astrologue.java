@@ -42,7 +42,5 @@ public class Astrologue extends Medium {
         this.promotion = promotion;
     }
     
-    public String toString() {
-        return "Astrologue[formation:"+formation+", promotion:"+promotion+"]"+super.toString();
-    }
+    
 }
