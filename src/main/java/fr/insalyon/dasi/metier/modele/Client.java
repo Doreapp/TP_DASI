@@ -1,18 +1,15 @@
 package fr.insalyon.dasi.metier.modele;
 
+import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-/**
- *
- * @author DASI Team
- */
 @Entity
 public class Client extends Utilisateur {
 
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;*/
-    private String dateDeNaissance;
+    @Temporal(TemporalType.DATE)
+    private Date dateDeNaissance;
     private String numeroDeTelephone;
     private String signeZodiaque;
     private String couleurBonheur;
@@ -22,18 +19,18 @@ public class Client extends Utilisateur {
     protected Client() {
     }
 
-    public Client(String email, String nom, String prenom, String motDePasse, String date, String numeroDeTelephone, String adresse) {
+    public Client(String email, String nom, String prenom, String motDePasse, Date date, String numeroDeTelephone, String adresse) {
         super(email, nom, prenom, motDePasse);
         this.dateDeNaissance = date;
         this.numeroDeTelephone = numeroDeTelephone;
         this.adressePostale = adresse;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return dateDeNaissance;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.dateDeNaissance = date;
     }
 
