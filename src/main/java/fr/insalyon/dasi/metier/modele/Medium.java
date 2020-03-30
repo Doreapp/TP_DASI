@@ -63,4 +63,7 @@ public abstract class Medium implements Serializable {
         return id;
     }
 
+    public String toString() {
+        return "Medium[id: "+id+"nom: "+nom+", pres:"+presentation+", genre:"+genre+"]";
+    }
 }
