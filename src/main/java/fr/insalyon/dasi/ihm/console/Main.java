@@ -5,10 +5,12 @@ import fr.insalyon.dasi.metier.modele.Astrologue;
 import fr.insalyon.dasi.metier.modele.Cartomancien;
 import fr.insalyon.dasi.metier.modele.Client;
 import fr.insalyon.dasi.metier.modele.Employe;
+import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.Spirite;
 import fr.insalyon.dasi.metier.modele.Utilisateur;
 import fr.insalyon.dasi.metier.service.Service;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -21,13 +23,18 @@ public class Main {
 
         initialiserEmployeMedium();  
         inscriptionClient(); 
-        testerAuthentification();
+        //testerAuthentification();
+        //testerGetMediums();
 
         JpaUtil.destroy();
     }
 
     public static void afficherUtilisateur(Utilisateur U) {
         System.out.println("-> Utilisateur : " + U);
+    }
+    
+    public static void afficherMedium(Medium M) {
+        System.out.println("-> Medium : " + M);
     }
 
     public static void initialiserEmployeMedium() {
@@ -66,11 +73,6 @@ public class Main {
         }finally{
             em.close();
         }
-        
-        
-        
-        
-        
     }
     
     public static void inscriptionClient(){
@@ -167,6 +169,23 @@ public class Main {
         System.out.println();
         
         //======================================
+    }
+    
+    public static void testerGetMediums(){
+        System.out.println();
+        System.out.println("**** testerListeMediums() ****");
+        System.out.println();
+        
+        Service service = new Service();
+        List<Medium> liste = service.getMediums();
+        System.out.println("*** Liste des Mediums");
+        for (Medium m : liste) {
+            afficherMedium(m);
+        }
+        
+        System.out.println();
+        System.out.println("**** Fin testerListeMediums() ****");
+        System.out.println();
     }
     
 }
