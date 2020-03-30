@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.insalyon.dasi.metier.modele;
 
 import java.io.Serializable;
@@ -14,33 +9,40 @@ import javax.persistence.Id;
 
 /**
  *
- * @author Antoine Mandin
+ * @author DASI Team
  */
 @Entity
 public class Utilisateur implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //Id dans la BDD
-    
     @Column(unique = true)
     protected String email;
-    //Email : identifiant
-    
     protected String nom;
     protected String prenom;
     protected String motDePasse;
 
     protected Utilisateur() {
-        
+    }
+
+    public Utilisateur(String email, String nom, String prenom, String motDePasse) {
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.motDePasse = motDePasse;
+    }
+
+    public Long getId() {
+        return id;
     }
     
     public String getEmail() {
         return email;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
+    
+    public void setEmail(String mail) {
+        this.email = mail;
     }
 
     public String getNom() {
@@ -67,11 +69,10 @@ public class Utilisateur implements Serializable {
         this.motDePasse = motDePasse;
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public String toString() {
+        return "id=" + id + ", email=" + email + ", nom=" + nom + ", prenom=" + prenom + ", motDePasse=" + motDePasse;
     }
     
-    public String toString(){
-        return "[id:+"+id+", prenom:"+prenom+", nom:"+nom+", email:"+email+", mdp:"+motDePasse+"]";
-    }
+
 }
