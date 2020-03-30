@@ -24,28 +24,19 @@ public class ConversationDao {
         return em.find(Conversation.class, conversationId); // renvoie null si l'identifiant n'existe pas
     }
     
-    public boolean mettreAJour(Conversation conv){
+     public boolean mettreAJour(Conversation conv){
         EntityManager em = JpaUtil.obtenirContextePersistance();
         return em.merge(conv) != null;
     }
     
-    //TODO rechercher conversation pour employé ?
-    /*
-    public Client chercherParMail(String clientMail) {
+    public List<Conversation> rechercherConversationPourEmploye(long employeId){
         EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Client> query = em.createQuery("SELECT c FROM Client c WHERE c.mail = :mail", Client.class);
-        query.setParameter("mail", clientMail); // correspond au paramètre ":mail" dans la requête
-        List<Client> clients = query.getResultList();
-        Client result = null;
-        if (!clients.isEmpty()) {
-            result = clients.get(0); // premier de la liste
-        }
-        return result;
-    }
-    
-    public List<Client> listerClients() {
-        EntityManager em = JpaUtil.obtenirContextePersistance();
-        TypedQuery<Client> query = em.createQuery("SELECT c FROM Client c ORDER BY c.nom ASC, c.prenom ASC", Client.class);
+        TypedQuery<Conversation> query = em.createQuery(
+                "SELECT c "
+                        + "FROM Conversation c "
+                        + "WHERE ETAT = 2" //ETAT = 0 <=> ETAT = EN_ATTENTE
+                            + "AND Employe_id = "+employeId
+                        + "ORDER BY c.date ASC", Conversation.class);
         return query.getResultList();
-    }*/
+    }
 }
