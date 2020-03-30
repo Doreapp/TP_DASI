@@ -55,4 +55,28 @@ public class Service {
         return resultat;
     }
 
+    public Conversation creerConversation(Client client, Medium medium) {
+        Conversation conv = new Conversation(
+                Conversation.Etat.EN_ATTENTE,
+                new Date(System.currentTimeMillis()),
+                null,
+                medium,
+                null,
+                client
+        );
+
+        JpaUtil.creerContextePersistance();
+        try {
+            JpaUtil.ouvrirTransaction();
+            conversationDao.creer(conv);
+            JpaUtil.validerTransaction();
+            conv = null;
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service inscrireClient(client)", ex);
+            JpaUtil.annulerTransaction();
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return conv;
+    }
 }
