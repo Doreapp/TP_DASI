@@ -106,8 +106,8 @@ public class Service {
             JpaUtil.ouvrirTransaction();
             conversationDao.creer(conv);
             JpaUtil.validerTransaction();
-            conv = null;
         } catch (Exception ex) {
+            conv = null;
             Log("Exception lors de l'appel au Service creerConversation(client, medium)", ex);
             JpaUtil.annulerTransaction();
         } finally {
