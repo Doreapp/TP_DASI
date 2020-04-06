@@ -91,8 +91,6 @@ public class Service {
      * @param client client de la conversation
      * @param medium medium lié à la conversation
      * @return la conversation créée
-     *  si l'employe de la conversation est null, alors il n'est pas possible de 
-     *  lancer la conversation (message/notification d'erreur au client)
      */
     public Conversation creerConversation(Client client, Medium medium) {
         //TODO : Rechercher l'employé le plus à même de répondre à la conversation
@@ -236,8 +234,7 @@ public class Service {
     }
     
     /**
-     * Retourne la liste de tous les médiums
-     * @return 
+     * Retourne l’ensemble des médiums de la BDD 
      */
     public List<Medium> getMediums() {
         List<Medium> resultat = null;
@@ -246,6 +243,23 @@ public class Service {
             resultat = mediumDao.listerMediums();
         } catch (Exception ex) {
             resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+
+    /**
+     * Renvoi la liste des conversations d'un client 
+     */
+    public List<Conversation> historiqueClient(Client c){
+        List<Conversation> resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = conversationDao.listerConversationClient(c.getId());
+        } catch (Exception ex) {
+            resultat = null;
+            System.out.println(ex);
         } finally {
             JpaUtil.fermerContextePersistance();
         }

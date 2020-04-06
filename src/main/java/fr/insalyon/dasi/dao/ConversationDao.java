@@ -51,11 +51,25 @@ public class ConversationDao {
         TypedQuery<Conversation> query = em.createQuery(
                 "SELECT c "
                 + "FROM Conversation c "
-                + "WHERE c.etat = :etat "
-                + "AND c.employe.id = :employeId "
+                + "WHERE ETAT = 2" //ETAT = 0 <=> ETAT = EN_ATTENTE
+                + "AND Employe_id = " + employeId
+                + "ORDER BY c.date ASC", Conversation.class);
+        return query.getResultList();
+    }
+
+    /**
+     * Recherche les conversations d'un client
+     * @param clientId identifiant du client
+     * @return les conversation correspondante
+     */
+    public List<Conversation> listerConversationClient(long clientId){
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        TypedQuery<Conversation> query = em.createQuery(
+                "SELECT c "
+                + "FROM Conversation c "
+                + "WHERE c.client.id = :id "
                 + "ORDER BY c.dateConsultation ASC", Conversation.class);
-        query.setParameter("employeId", employeId);
-        query.setParameter("etat", Conversation.Etat.EN_ATTENTE);
+        query.setParameter("id",clientId);
         return query.getResultList();
     }
 }
