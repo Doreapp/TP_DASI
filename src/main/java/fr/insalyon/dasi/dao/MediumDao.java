@@ -3,6 +3,7 @@ package fr.insalyon.dasi.dao;
 
 import fr.insalyon.dasi.metier.modele.Medium;
 import java.util.List;
+import javafx.util.Pair;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
