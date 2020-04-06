@@ -8,6 +8,7 @@ import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.Spirite;
 import fr.insalyon.dasi.metier.modele.Utilisateur;
+import fr.insalyon.dasi.metier.modele.Conversation;
 import fr.insalyon.dasi.metier.service.Service;
 import java.util.Date;
 import java.util.List;
