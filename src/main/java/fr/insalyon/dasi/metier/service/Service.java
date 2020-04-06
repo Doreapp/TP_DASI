@@ -261,6 +261,23 @@ public class Service {
         return resultat;
     }
     
+    /**
+     * Renvoi la liste des conversations d'un client 
+     */
+    public List<Conversation> historiqueClient(Client c){
+        List<Conversation> resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            resultat = conversationDao.listerConversationClient(c.getId());
+        } catch (Exception ex) {
+            resultat = null;
+            System.out.println(ex);
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return resultat;
+    }
+    
     public List<Pair<Medium, Long>> nbConsultationParMedium(){
         List<Pair<Medium, Long>> resultat = null;
         JpaUtil.creerContextePersistance();
