@@ -27,12 +27,14 @@ public class Main {
         //INIT :
         //initialiserEmployeMedium();  
         //inscriptionClient(); 
+
         //TESTS :
-        testerCreerConversation();
-//testerCommencerFinirConversation();
+        //testerCreerConversation();
+        //testerCommencerFinirConversation();
         //testerAuthentification();
         //testerGetMediums();
         //testerNbConsultationEmploye();
+        testGenererPredictions();
 
         JpaUtil.destroy();
     }
@@ -553,6 +555,14 @@ public class Main {
             for (Pair<Employe, Long> p : list) {
                 System.out.println("> nb conv : (" + p.getValue() + "), employé : " + p.getKey());
             }
+        }
+    }
+
+    public static void testGenererPredictions(){
+        Service service = new Service();
+        List<String> prediction = service.genererPredictions("bleu","cochon",2,2,2);
+        for(String s : prediction){
+            System.out.println(s);
         }
     }
 
