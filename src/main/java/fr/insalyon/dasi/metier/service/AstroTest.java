@@ -40,7 +40,7 @@ import org.apache.http.message.BasicNameValuePair;
  */
 public class AstroTest {
 
-    final static String MA_CLE_ASTRO_API = "XXXXXXXX-Moodle-Clé";
+    final static String MA_CLE_ASTRO_API = "ASTRO-01-M0lGLURBU0ktQVNUUk8tQjAx";
 
     public static final String ENCODING_UTF8 = "UTF-8";
     public static final SimpleDateFormat JSON_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
