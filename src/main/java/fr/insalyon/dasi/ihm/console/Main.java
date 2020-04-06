@@ -280,6 +280,97 @@ public class Main {
         System.out.println("> "+conv3);
     }
 
+       public static void testerCommencerFinirConversation(){
+        System.out.println("******************************************");
+        System.out.println("**** Test commencer/finir conversation****");
+        System.out.println("******************************************");
+        
+        Service service = new Service();
+        
+        System.out.println("****   Ajout des clients ");
+        
+        // 1) add client 
+        Client c = new Client("claude.chappe@insa-lyon.fr","Chappe", "Claude", "0123", "mdp", new Date("23/12/2002"), "Rue du Lila");
+        Long id1 = service.inscrireClient(c);
+        if (id1 != null) {
+            System.out.println("> Succès inscription");
+        } else {
+            System.out.println("> Échec inscription");
+        }
+        afficherUtilisateur(c);
+        
+        Client c2 = new Client("email","Hugo","Victor","00","mdp",new Date("12/15/2020"),"adresse");
+        Long id2 = service.inscrireClient(c2);
+        if (id2 != null) {
+            System.out.println("> Succès inscription");
+        } else {
+            System.out.println("> Échec inscription");
+        }
+        afficherUtilisateur(c2);
+        
+        
+        System.out.println("****   Ajouts des médiums et employés");
+        
+        // 2) Add employés et médiums
+        Employe u1 = new Employe("camile.martin@gmail.com","Martin","Camille","0123","mdp",'F');
+        Employe u2 = new Employe("pierre.dupont@gmail.com","Dupont","Pierre","0000","mdp",'H');
+        
+        // médiums :
+        Spirite m2 = new Spirite("Marc de café, boule de cristal, oreilles de lapin","Professeur Tran","Votre avenir est devant vous : regardons-le ensemble !",'H');
+        Cartomancien m3 = new Cartomancien("Mme Irma","Comprenez votre entourage grâce à mes cartes ! Résultats rapides.",'F');
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DASI-PU");
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.persist(u1);
+            em.persist(u2);
+            em.persist(m2);
+            em.persist(m3);
+            em.getTransaction().commit();
+        }catch(Exception ex){
+            em.getTransaction().rollback();
+        }finally{
+            em.close();
+        }
+        
+        System.out.println("**** Ajout des conversation ");
+        
+        Conversation conv1 = service.creerConversation(c, m2);
+        Conversation conv2 = service.creerConversation(c2, m2);
+        Conversation conv3 = service.creerConversation(c2, m3);
+        
+        System.out.println("Conversations ajoutées :");
+        System.out.println("> "+conv1);
+        System.out.println("> "+conv2);
+        System.out.println("> "+conv3);
+        
+        System.out.println("******* Test Commencer ************");
+        boolean res1 = false, res2 = false;
+        res1 = service.commencerConversation(conv1);
+        res2 = service.commencerConversation(conv2);
+        System.out.println("> conv 1 commencée ? ["+res1+"]");
+        if(res1)
+            System.out.println("--> "+conv1);
+        
+        System.out.println("> conv 2 commencée ? ["+res2+"]");
+        if(res2)
+            System.out.println("--> "+conv2);
+        
+        res1 = false;
+        res2 = false;
+        res1 = service.finirConversation(conv1, "bien");
+        res2 = service.finirConversation(conv3,"bug");
+        System.out.println("> conv 1 finie ? ["+res1+"]");
+        if(res1)
+            System.out.println("--> "+conv1);
+        
+        System.out.println("> conv 3 fermée ? ["+res2+"]");
+        if(res2)
+            System.out.println("--> "+conv3);
+    }
+
+    
     public static void testerHistoriqueClient(){
         System.out.println("************************************");
         System.out.println("****   Test historique Client  ****");
