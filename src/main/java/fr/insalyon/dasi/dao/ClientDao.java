@@ -12,7 +12,7 @@ import javax.persistence.TypedQuery;
  */
 public class ClientDao {
     
-    public void creer(Client client) {
+    public void creer(Client client){
         EntityManager em = JpaUtil.obtenirContextePersistance();
         em.persist(client);
     }

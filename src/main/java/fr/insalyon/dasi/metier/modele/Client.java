@@ -11,6 +11,7 @@ public class Client extends Utilisateur {
     @Temporal(TemporalType.DATE)
     private Date dateDeNaissance;
     private String signeZodiaque;
+    private String signeChinois;
     private String couleurBonheur;
     private String animalTotem;
     private String adressePostale;
@@ -54,6 +55,14 @@ public class Client extends Utilisateur {
 
     public void setAnimalTotem(String animalTotem) {
         this.animalTotem = animalTotem;
+    }
+
+    public String getSigneChinois() {
+        return signeChinois;
+    }
+
+    public void setSigneChinois(String signeChinois) {
+        this.signeChinois = signeChinois;
     }
 
     public String getAdressePostale() {

@@ -11,11 +11,12 @@ import fr.insalyon.dasi.metier.modele.Conversation;
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.Utilisateur;
+import fr.insalyon.dasi.metier.service.AstroTest;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.util.Pair;
 
 /**
  *
@@ -28,6 +29,7 @@ public class Service {
     protected UtilisateurDao utilisateurDao = new UtilisateurDao();
     protected MediumDao mediumDao = new MediumDao();
     protected EmployeDao employeDao = new EmployeDao();
+    protected AstroTest astroTest = new AstroTest();
 
     /**
      * Log une erreur 
@@ -43,11 +45,16 @@ public class Service {
      * @param client Client à insrire
      * @return l'identifiant du client dans la BDD
      */
-    public Long inscrireClient(Client client) {
+    public Long inscrireClient(Client client){
         Long resultat = null;
         JpaUtil.creerContextePersistance();
         try {
             JpaUtil.ouvrirTransaction();
+            List<String> profil = astroTest.getProfil(client.getPrenom(),client.getDate());
+            client.setSigneZodiaque(profil.get(0));
+            client.setSigneChinois(profil.get(1));
+            client.setCouleurBonheur(profil.get(2));
+            client.setAnimalTotem(profil.get(3));
             clientDao.creer(client);
             JpaUtil.validerTransaction();
             resultat = client.getId();
@@ -92,8 +99,6 @@ public class Service {
      * @param client client de la conversation
      * @param medium medium lié à la conversation
      * @return la conversation créée
-     *  si l'employe de la conversation est null, alors il n'est pas possible de 
-     *  lancer la conversation (message/notification d'erreur au client)
      */
     public Conversation creerConversation(Client client, Medium medium) {
         //TODO : Rechercher l'employé le plus à même de répondre à la conversation
@@ -173,16 +178,13 @@ public class Service {
         
         Conversation.Etat before = c.getEtat();
         c.setEtat(Conversation.Etat.EN_COURS);
-        Employe employe = c.getEmploye();
-        employe.setDisponible(false);
         boolean resultat = false;
         
         JpaUtil.creerContextePersistance();
         try {
             JpaUtil.ouvrirTransaction();
             
-            resultat = conversationDao.mettreAJour(c) && 
-                    employeDao.mettreAJour(employe);
+            resultat = conversationDao.mettreAJour(c);
             JpaUtil.validerTransaction();
         } catch (Exception ex) {
             Log("Exception lors de l'appel au Service commencerConversation(Conversation)", ex);
@@ -195,7 +197,6 @@ public class Service {
         if(!resultat){
             //on remet les anciennes valeurs
             c.setEtat(before);
-            employe.setDisponible(true);
         }
         return resultat;
     }
@@ -214,8 +215,6 @@ public class Service {
         
         Conversation.Etat before = c.getEtat();
         c.setEtat(Conversation.Etat.TERMINEE);
-        Employe employe = c.getEmploye();
-        employe.setDisponible(true);
         c.setCommentaire(commentaire);
         
         boolean resultat = false;
@@ -224,8 +223,7 @@ public class Service {
         try {
             JpaUtil.ouvrirTransaction();
             
-            resultat = conversationDao.mettreAJour(c) && 
-                    employeDao.mettreAJour(employe);
+            resultat = conversationDao.mettreAJour(c);
             JpaUtil.validerTransaction();
         } catch (Exception ex) {
             Log("Exception lors de l'appel au Service finirConversation(Conversation, Commentaire) : ID NULL", ex);
@@ -239,15 +237,10 @@ public class Service {
             //on remet les anciennes valeurs
             c.setEtat(before);
             c.setCommentaire(null);
-            employe.setDisponible(false);
         }
         return resultat;
     }
     
-    /**
-     * Retourne la liste de tous les 
-     * @return 
-     */
     public List<Medium> getMediums() {
         List<Medium> resultat = null;
         JpaUtil.creerContextePersistance();
@@ -260,53 +253,15 @@ public class Service {
         }
         return resultat;
     }
-    
-    /**
-     * Renvoi la liste des conversations d'un client 
-     */
-    public List<Conversation> historiqueClient(Client c){
-        List<Conversation> resultat = null;
-        JpaUtil.creerContextePersistance();
-        try {
-            resultat = conversationDao.listerConversationClient(c.getId());
-        } catch (Exception ex) {
-            resultat = null;
-            System.out.println(ex);
-        } finally {
-            JpaUtil.fermerContextePersistance();
+
+    public List<String> genererPredictions(String couleur, String animal, int amour, int sante, int travail){
+        try{
+            return astroTest.getPredictions(couleur,animal,amour,sante,travail);
+        }catch(Exception ex){
+            return null;
         }
-        return resultat;
     }
-    
-    public List<Pair<Medium, Long>> nbConsultationParMedium(){
-        List<Pair<Medium, Long>> resultat = null;
-        JpaUtil.creerContextePersistance();
-        try {
-            resultat = conversationDao.nbConsultationParMedium();
-        } catch (Exception ex) {
-            System.out.println("Erreur : ");
-            ex.printStackTrace();
-            resultat = null;
-        } finally {
-            JpaUtil.fermerContextePersistance();
-        }
-        return resultat;
-    }
-    
-    public List<Pair<Employe, Long>> nbConsultationParEmploye(){
-        List<Pair<Employe, Long>> resultat = null;
-        JpaUtil.creerContextePersistance();
-        try {
-            resultat = conversationDao.nbConsultationParEmploye();
-        } catch (Exception ex) {
-            System.out.println("Erreur : ");
-            ex.printStackTrace();
-            resultat = null;
-        } finally {
-            JpaUtil.fermerContextePersistance();
-        }
-        return resultat;
-    }
+
 }
     
     

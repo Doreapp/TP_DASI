@@ -36,9 +36,4 @@ public class EmployeDao {
         }
         return result;
     }
-    
-    public boolean mettreAJour(Employe e) {
-        EntityManager em = JpaUtil.obtenirContextePersistance();
-        return em.merge(e) != null;
-    }
 }
