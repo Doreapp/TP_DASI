@@ -2,6 +2,7 @@ package fr.insalyon.dasi.metier.service;
 
 import fr.insalyon.dasi.dao.ClientDao;
 import fr.insalyon.dasi.dao.ConversationDao;
+import fr.insalyon.dasi.dao.EmployeDao;
 import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.dao.MediumDao;
 import fr.insalyon.dasi.dao.UtilisateurDao;
@@ -25,6 +26,7 @@ public class Service {
     protected ConversationDao conversationDao = new ConversationDao();
     protected UtilisateurDao utilisateurDao = new UtilisateurDao();
     protected MediumDao mediumDao = new MediumDao();
+    protected EmployeDao employeDao = new EmployeDao();
 
     /**
      * Log une erreur 
@@ -92,12 +94,25 @@ public class Service {
      */
     public Conversation creerConversation(Client client, Medium medium) {
         //TODO : Rechercher l'employé le plus à même de répondre à la conversation
+        Employe employe = null;
+        
+        JpaUtil.creerContextePersistance();
+        try {
+            // Recherche des conversation
+            employe = employeDao.chercherPourMedium(medium);
+        } catch (Exception ex) {
+            Log("Exception lors de l'appel au Service creerConversation(client, medium)", ex);
+            employe = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        
         Conversation conv = new Conversation(
                 Conversation.Etat.EN_ATTENTE,
                 new Date(System.currentTimeMillis()),
                 null,
                 medium,
-                null,
+                employe,
                 client
         );
 
