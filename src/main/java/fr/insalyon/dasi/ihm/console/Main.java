@@ -4,11 +4,11 @@ import fr.insalyon.dasi.dao.JpaUtil;
 import fr.insalyon.dasi.metier.modele.Astrologue;
 import fr.insalyon.dasi.metier.modele.Cartomancien;
 import fr.insalyon.dasi.metier.modele.Client;
-import fr.insalyon.dasi.metier.modele.Conversation;
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.Spirite;
 import fr.insalyon.dasi.metier.modele.Utilisateur;
+import fr.insalyon.dasi.metier.modele.Conversation;
 import fr.insalyon.dasi.metier.service.Service;
 import java.util.Date;
 import java.util.List;
@@ -19,18 +19,16 @@ import javax.persistence.Persistence;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("..Main..");
 
         JpaUtil.init();
 
-        //INIT :
         //initialiserEmployeMedium();  
         //inscriptionClient(); 
-        
-        //TESTS :
-        testerCommencerFinirConversation();
         //testerAuthentification();
         //testerGetMediums();
+        //testerCreerConversation();
+        //testerHistoriqueClient();
+
 
         JpaUtil.destroy();
     }
@@ -44,6 +42,7 @@ public class Main {
     }
 
     public static void initialiserEmployeMedium() {
+        
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DASI-PU");
         EntityManager em = emf.createEntityManager();
 
@@ -359,10 +358,10 @@ public class Main {
             for(Conversation conv : conversations)
                 System.err.println("--> "+conv);
         }
-    }
+    }   
     
-    
-    public static void testerCommencerFinirConversation(){
+
+       public static void testerCommencerFinirConversation(){
         System.out.println("******************************************");
         System.out.println("**** Test commencer/finir conversation****");
         System.out.println("******************************************");
@@ -450,5 +449,59 @@ public class Main {
         System.out.println("> conv 3 fermée ? ["+res2+"]");
         if(res2)
             System.out.println("--> "+conv3);
+    }
+
+    
+    public static void testerHistoriqueClient(){
+        System.out.println("************************************");
+        System.out.println("****   Test historique Client  ****");
+        System.out.println("************************************");
+
+        Service service = new Service();
+
+        Client c = new Client("claude.chappe@insa-lyon.fr","Chappe", "Claude", "0123", "mdp", new Date("23/12/2002"), "Rue du Lila");
+        Long id1 = service.inscrireClient(c);
+        
+        Client c2 = new Client("email","Hugo","Victor","00","mdp",new Date("12/15/2020"),"adresse");
+        Long id2 = service.inscrireClient(c2);
+        
+        // 2) Add employés et médiums
+        Utilisateur u1 = new Employe("camile.martin@gmail.com","Martin","Camille","0123","mdp",'F');
+        Utilisateur u2 = new Employe("pierre.dupont@gmail.com","Dupont","Pierre","0000","mdp",'H');
+        
+        // médiums :
+        Spirite m2 = new Spirite("Marc de café, boule de cristal, oreilles de lapin","Professeur Tran","Votre avenir est devant vous : regardons-le ensemble !",'H');
+        Cartomancien m3 = new Cartomancien("Mme Irma","Comprenez votre entourage grâce à mes cartes ! Résultats rapides.",'F');
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DASI-PU");
+        EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.persist(u1);
+            em.persist(u2);
+            em.persist(m2);
+            em.persist(m3);
+            em.getTransaction().commit();
+        }catch(Exception ex){
+            em.getTransaction().rollback();
+        }finally{
+            em.close();
+        }
+
+        Conversation conv1 = service.creerConversation(c, m2);
+        Conversation conv2 = service.creerConversation(c2, m2);
+        Conversation conv3 = service.creerConversation(c2, m3);
+        
+        List<Conversation> liste_c = service.historiqueClient(c);
+        System.out.println("Historique Claude : ");
+        for(Conversation conv : liste_c){
+            System.out.println(conv.toString());
+        }
+        System.out.println();
+        List<Conversation> liste_c2 = service.historiqueClient(c2);
+        System.out.println("Historique Hugo : ");
+        for(Conversation conv : liste_c2){
+            System.out.println(conv.toString());
+        }
     }
 }
