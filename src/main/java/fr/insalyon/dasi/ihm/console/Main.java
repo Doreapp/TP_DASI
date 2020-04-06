@@ -11,6 +11,7 @@ import fr.insalyon.dasi.metier.modele.Utilisateur;
 import fr.insalyon.dasi.metier.modele.Conversation;
 import fr.insalyon.dasi.metier.service.Service;
 import java.util.Date;
+import javafx.util.Pair;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -502,6 +503,108 @@ public class Main {
         System.out.println("Historique Hugo : ");
         for(Conversation conv : liste_c2){
             System.out.println(conv.toString());
+        }
+    }
+    
+    public static void testerNbConsultationMedium(){
+        System.out.println("******************************************");
+        System.out.println("**** Test Nb consulations medium      ****");
+        System.out.println("******************************************");
+
+        Service service = new Service();
+
+        // 1) add client 
+        Client c = new Client("claude.chappe@insa-lyon.fr", "Chappe", "Claude", "0123", "mdp", new Date("23/12/2002"), "Rue du Lila");
+        Long id1 = service.inscrireClient(c);
+
+        Client c2 = new Client("email", "Hugo", "Victor", "00", "mdp", new Date("12/15/2020"), "adresse");
+        Long id2 = service.inscrireClient(c2);
+
+        // 2) Add employés et médiums
+        Employe u1 = new Employe("camile.martin@gmail.com", "Martin", "Camille", "0123", "mdp", 'F');
+        Employe u2 = new Employe("pierre.dupont@gmail.com", "Dupont", "Pierre", "0000", "mdp", 'H');
+
+        // médiums :
+        Spirite m2 = new Spirite("Marc de café, boule de cristal, oreilles de lapin", "Professeur Tran", "Votre avenir est devant vous : regardons-le ensemble !", 'H');
+        Cartomancien m3 = new Cartomancien("Mme Irma", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.", 'F');
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DASI-PU");
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(u1);
+            em.persist(u2);
+            em.persist(m2);
+            em.persist(m3);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+
+        Conversation conv1 = service.creerConversation(c, m2);
+        Conversation conv2 = service.creerConversation(c2, m2);
+        Conversation conv3 = service.creerConversation(c2, m3);
+
+        List<Pair<Medium, Long>> mediums = service.nbConsultationParMedium();
+        
+        System.out.println("Mediums les plus utilisés");
+        if (mediums != null) {
+            for (Pair<Medium, Long> p : mediums) {
+                System.out.println("> nb conv : (" + p.getValue() + "), medium : " + p.getKey());
+            }
+        }
+    }
+
+        public static void testerNbConsultationEmploye(){
+        System.out.println("******************************************");
+        System.out.println("**** Test Nb consulations medium      ****");
+        System.out.println("******************************************");
+
+        Service service = new Service();
+
+        // 1) add client 
+        Client c = new Client("claude.chappe@insa-lyon.fr", "Chappe", "Claude", "0123", "mdp", new Date("23/12/2002"), "Rue du Lila");
+        Long id1 = service.inscrireClient(c);
+
+        Client c2 = new Client("email", "Hugo", "Victor", "00", "mdp", new Date("12/15/2020"), "adresse");
+        Long id2 = service.inscrireClient(c2);
+
+        // 2) Add employés et médiums
+        Employe u1 = new Employe("camile.martin@gmail.com", "Martin", "Camille", "0123", "mdp", 'F');
+        Employe u2 = new Employe("pierre.dupont@gmail.com", "Dupont", "Pierre", "0000", "mdp", 'H');
+
+        // médiums :
+        Spirite m2 = new Spirite("Marc de café, boule de cristal, oreilles de lapin", "Professeur Tran", "Votre avenir est devant vous : regardons-le ensemble !", 'H');
+        Cartomancien m3 = new Cartomancien("Mme Irma", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.", 'F');
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("DASI-PU");
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(u1);
+            em.persist(u2);
+            em.persist(m2);
+            em.persist(m3);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+
+        Conversation conv1 = service.creerConversation(c, m2);
+        Conversation conv2 = service.creerConversation(c2, m2);
+        Conversation conv3 = service.creerConversation(c2, m3);
+
+        List<Pair<Employe, Long>> list = service.nbConsultationParEmploye();
+        
+        System.out.println("Employés les plus solicités");
+        if (list != null) {
+            for (Pair<Employe, Long> p : list) {
+                System.out.println("> nb conv : (" + p.getValue() + "), employé : " + p.getKey());
+            }
         }
     }
 }
