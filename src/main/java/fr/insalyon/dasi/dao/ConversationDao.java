@@ -51,9 +51,11 @@ public class ConversationDao {
         TypedQuery<Conversation> query = em.createQuery(
                 "SELECT c "
                 + "FROM Conversation c "
-                + "WHERE ETAT = 2" //ETAT = 0 <=> ETAT = EN_ATTENTE
-                + "AND Employe_id = " + employeId
-                + "ORDER BY c.date ASC", Conversation.class);
+                + "WHERE c.etat = :etat "
+                + "AND c.employe.id = :employeId "
+                + "ORDER BY c.dateConsultation ASC", Conversation.class);
+        query.setParameter("employeId", employeId);
+        query.setParameter("etat", Conversation.Etat.EN_ATTENTE);
         return query.getResultList();
     }
 }

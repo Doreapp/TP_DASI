@@ -91,6 +91,8 @@ public class Service {
      * @param client client de la conversation
      * @param medium medium lié à la conversation
      * @return la conversation créée
+     *  si l'employe de la conversation est null, alors il n'est pas possible de 
+     *  lancer la conversation (message/notification d'erreur au client)
      */
     public Conversation creerConversation(Client client, Medium medium) {
         //TODO : Rechercher l'employé le plus à même de répondre à la conversation
@@ -233,6 +235,10 @@ public class Service {
         return resultat;
     }
     
+    /**
+     * Retourne la liste de tous les médiums
+     * @return 
+     */
     public List<Medium> getMediums() {
         List<Medium> resultat = null;
         JpaUtil.creerContextePersistance();
