@@ -110,4 +110,8 @@ public class Conversation implements Serializable {
         this.commentaire = commentaire;
     }
 
+    public String toString(){
+        return "Conversation : [id:"+id+", etat:"+etat+", date"+dateConsultation.toString()
+                +", \nmedium:"+medium+", \nclient:"+client+", \nemploye:"+employe+", \ncommentaire:"+commentaire+"]";
+    }
 }

@@ -18,6 +18,7 @@ public class Employe extends Utilisateur {
     public Employe(String email, String nom, String prenom, String numeroDeTelephone, String motDePasse, char genre) {
         super(email, nom, prenom, numeroDeTelephone, motDePasse);
         this.genre = genre;
+        disponible = true;
     }
     
     public Employe(){
