@@ -66,6 +66,24 @@ public class Service {
         } finally {
             JpaUtil.fermerContextePersistance();
         }
+        
+        if(resultat != null){
+            /* Mail confirmation :*/
+            StringBuilder mailBuilder = new StringBuilder();
+            mailBuilder.append("Bonjour ")
+                    .append(client.getPrenom())
+                    .append(", nous vous confirmons votre inscription au service PREDICT’IF. Rendezvous vite sur notre site pour consulter votre profil astrologique et profiter des dons incroyables de nos mediums");
+            Message.envoyerMail("contact@predict.if", client.getEmail(), "Bienvenue chez PREDICT'IF", mailBuilder.toString());
+        } else {
+            /* Mail echec :*/
+            StringBuilder mailBuilder = new StringBuilder();
+            mailBuilder.append("Bonjour ")
+                    .append(client.getPrenom())
+                    .append(", votre inscription au service PREDICT’IF a malencontreusement échouée...\nMerci de recommencer ultérieurement.");
+            Message.envoyerMail("contact@predict.if", client.getEmail(), "Echec de l’inscription chez PREDICT’IF", mailBuilder.toString());
+        
+        }
+        
         return resultat;
     }
 
@@ -241,7 +259,30 @@ Mme Irma
             //on remet les anciennes valeurs
             c.setEtat(before);
             employe.setDisponible(true);
+        } else {
+            /* Message validation client :  */
+            Client client = c.getClinet();
+            StringBuilder notificationBuilder = new StringBuilder();
+            notificationBuilder.append("Pour : ")
+                    .append(client.getPrenom())
+                    .append(" ")
+                    .append(client.getNom().toUpperCase())
+                    .append(", Tel : ")
+                    .append(client.getNumeroDeTelephone())
+                    .append("\n")
+                    .append("Message : Bonjour ")
+                    .append(client.getPrenom())
+                    .append(". J’ai bien reçu votre demande de consultation du ")
+                    .append(new SimpleDateFormat("dd/MM/yyyy à HH:mm").format(c.getDateConsultation()))
+                    .append(".Vous pouvez dès à présent me contacter au ")
+                    .append(c.getEmploye().getNumeroDeTelephone())
+                    .append(". A tout de suite ! Médiumiquement vôtre, ")
+                    .append(c.getMedium().getNom());
+            Message.envoyerNotification(
+                    client.getNumeroDeTelephone(), 
+                    notificationBuilder.toString());
         }
+        
         return resultat;
     }
     
