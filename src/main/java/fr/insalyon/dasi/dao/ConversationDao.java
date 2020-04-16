@@ -67,6 +67,25 @@ public class ConversationDao {
         return query.getResultList();
     }
 
+    /**
+     * Recherche les conversations finies d'un client
+     *
+     * @param clientID identifiant du client
+     * @return les conversation correspondante @nullable
+     */
+    public List<Conversation> rechercherHistoriqueClient(long clientId) {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        TypedQuery<Conversation> query = em.createQuery(
+                "SELECT c "
+                + "FROM Conversation c "
+                + "WHERE c.etat = :etat "
+                + "AND c.client.id = :clientId "
+                + "ORDER BY c.dateConsultation ASC", Conversation.class);
+        query.setParameter("clientId", clientId);
+        query.setParameter("etat", Conversation.Etat.TERMINEE);
+        return query.getResultList();
+    }
+
     public List<Pair<Medium, Long>> nbConsultationParMedium() {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         List<Object[]> res = em.createQuery(
