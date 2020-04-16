@@ -41,4 +41,15 @@ public class EmployeDao {
         EntityManager em = JpaUtil.obtenirContextePersistance();
         return em.merge(e) != null;
     }
+    
+    /**
+     * Recherche un employe par son Id
+     *
+     * @param id id à cehrcher
+     * @return l'employé, null si non-trouvé
+     */
+    public Employe chercherParId(Long id) {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        return em.find(Employe.class, id); // renvoie null si l'identifiant n'existe pas
+    }
 }

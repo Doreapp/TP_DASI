@@ -17,4 +17,14 @@ public class ClientDao {
         em.persist(client);
     }
     
+    /**
+     * Recherche un client par son Id
+     *
+     * @param id id à cehrcher
+     * @return le client trouvé, null si non-trouvé
+     */
+    public Client chercherParId(Long id) {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        return em.find(Client.class, id); // renvoie null si l'identifiant n'existe pas
+    }
 }

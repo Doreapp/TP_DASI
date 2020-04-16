@@ -94,7 +94,6 @@ public class ConversationDao {
     }
 
     public List<Pair<Employe, Long>> nbConsultationParEmploye() {
-        System.out.println("nb called");
         EntityManager em = JpaUtil.obtenirContextePersistance();
         List<Object[]> res = em.createQuery(
                 "SELECT c.employe, count(c.employe) nb "
