@@ -38,6 +38,7 @@ public class Main {
         testerCreerConversation();          //initialise Conversation[] {conversations}
         testerRechercherConversation();
         testerCommencerFinirConversation(); //testerCreerConversation() nécessaire
+        testerRechercherHistoriqueClient();
         testerNbConsultationMedium();
         testerNbConsultationEmploye();
         testGenererPredictions();
@@ -261,18 +262,40 @@ public class Main {
         System.out.println("> conversations pour u1 : " + employes[0]);
         if (conv != null) {
             for (Conversation c : conv) {
-                System.err.println("--> " + c);
+                System.out.println("--> " + c);
             }
         }
         conv = service.rechercherConversationPourEmploye(employes[1]);
         System.out.println("> conversations pour u2 : " + employes[1]);
         if (conv != null) {
             for (Conversation c : conv) {
-                System.err.println("--> " + c);
+                System.out.println("--> " + c);
             }
         }
         
         System.out.println("**** fin Test recherche conversation****\n");
+    }
+
+    public static void testerRechercherHistoriqueClient() {
+        System.out.println("\n**** Test recherche Historique Client ****");
+        Service service = new Service();
+
+        List<Conversation> conv = service.historiqueClient(clients[0]);
+        System.out.println("> conversations pour u1 : " + clients[0]);
+        if (conv != null) {
+            for (Conversation c : conv) {
+                System.out.println("--> " + c);
+            }
+        }
+        conv = service.historiqueClient(clients[1]);
+        System.out.println("> conversations pour u2 : " + clients[1]);
+        if (conv != null) {
+            for (Conversation c : conv) {
+                System.out.println("--> " + c);
+            }
+        }
+        
+        System.out.println("**** fin Test recherche Historique Client ****\n");
     }
 
     public static void testerCommencerFinirConversation() {

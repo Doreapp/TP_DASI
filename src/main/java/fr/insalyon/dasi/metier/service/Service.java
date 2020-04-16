@@ -225,6 +225,32 @@ Mme Irma
         return resultat;
     }
 
+     /**
+     * Recherche les conversations finies d'un client
+     * @param client
+     * @return la liste des conversations correspondantes
+     */
+    public List<Conversation> historiqueClient(Client client){
+        if(client.getId() == null){
+            Log("Exception lors de l'appel au Service historiqueClient(client) : ID NULL", new Throwable());
+            return null;
+        }
+        
+        List<Conversation> resultat = null;
+        JpaUtil.creerContextePersistance();
+        try {
+            // Recherche des conversation
+            resultat = conversationDao.rechercherHistoriqueClient(client.getId());
+        } catch (Exception ex) {
+            Log("Exception lors de l'appel au Service historiqueClient(client)", ex);
+            resultat = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        
+        return resultat;
+    }
+
     /**
      * Indique que la conversation a débutée
      * @param c conversation en question
