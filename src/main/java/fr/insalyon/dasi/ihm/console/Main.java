@@ -258,18 +258,14 @@ public class Main {
         Service service = new Service();
 
         System.out.println("**** Recherche des conversations, point de vu employe");
-        List<Conversation> conv = service.rechercherConversationPourEmploye(employes[0]);
-        System.out.println("> conversations pour u1 : " + employes[0]);
-        if (conv != null) {
-            for (Conversation c : conv) {
-                System.out.println("--> " + c);
-            }
-        }
-        conv = service.rechercherConversationPourEmploye(employes[1]);
-        System.out.println("> conversations pour u2 : " + employes[1]);
-        if (conv != null) {
-            for (Conversation c : conv) {
-                System.out.println("--> " + c);
+
+        for(Employe e : employes){
+            List<Conversation> conv = service.rechercherConversationPourEmploye(e);
+            System.out.println("> conversations pour : " + e);
+            if (conv != null) {
+                for (Conversation c : conv) {
+                    System.out.println("--> " + c);
+                }
             }
         }
         
@@ -280,18 +276,13 @@ public class Main {
         System.out.println("\n**** Test recherche Historique Client ****");
         Service service = new Service();
 
-        List<Conversation> conv = service.historiqueClient(clients[0]);
-        System.out.println("> conversations pour u1 : " + clients[0]);
-        if (conv != null) {
-            for (Conversation c : conv) {
-                System.out.println("--> " + c);
-            }
-        }
-        conv = service.historiqueClient(clients[1]);
-        System.out.println("> conversations pour u2 : " + clients[1]);
-        if (conv != null) {
-            for (Conversation c : conv) {
-                System.out.println("--> " + c);
+        for(int i = 0; i < 5; i++){
+            List<Conversation> conv = service.historiqueClient(clients[i]);
+            System.out.println("> conversations pour : " + clients[i]);
+            if (conv != null) {
+                for (Conversation cv : conv) {
+                    System.out.println("--> " + cv);
+                }
             }
         }
         
