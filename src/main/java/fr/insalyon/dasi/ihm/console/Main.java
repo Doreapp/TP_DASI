@@ -35,9 +35,9 @@ public class Main {
         //TESTS :
         testerAuthentification();
         testerGetMediums();
-        testerCreerConversation();
+        testerCreerConversation();          //initialise Conversation[] {conversations}
         testerRechercherConversation();
-        testerCommencerFinirConversation();
+        testerCommencerFinirConversation(); //testerCreerConversation() nécessaire
         testerNbConsultationMedium();
         testerNbConsultationEmploye();
         testGenererPredictions();
