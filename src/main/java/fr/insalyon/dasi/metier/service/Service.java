@@ -11,14 +11,14 @@ import fr.insalyon.dasi.metier.modele.Conversation;
 import fr.insalyon.dasi.metier.modele.Employe;
 import fr.insalyon.dasi.metier.modele.Medium;
 import fr.insalyon.dasi.metier.modele.Utilisateur;
-import fr.insalyon.dasi.metier.service.AstroTest;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
+import util.AstroTest;
+import util.Message;
 
 /**
  *
